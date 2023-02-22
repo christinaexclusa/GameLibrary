@@ -7,14 +7,32 @@ namespace GameLibrary.Controllers
 {
     public class PublisherController : Controller
     {
-        private readonly DbContext _context;
-        public PublisherController(DbContext context)
+        private readonly GameContext _context;
+        public PublisherController(GameContext context)
         {
             _context = context;
         }
-        public IActionResult Index()
+
+        public ActionResult Index()
         {
+            var list = View(_context.Publishers
+                                .Include(b => b.BoardGames)
+                                .ToList());
             return View();
+        }
+
+
+        public ActionResult GameDetails(int publisherId)
+        {
+            if (publisherId == null)
+            {
+                return NotFound();
+            }
+            var game = _context.BoardGames
+                .Where(b => b.Id == publisherId)
+                .ToList();
+
+            return View(game);
         }
     }
 }

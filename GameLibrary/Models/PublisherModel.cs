@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public virtual List<BoardGameModel> Boards { get; set; }
+        public virtual IEnumerable<BoardGameModel>? BoardGames { get; set; }
     }
 }
